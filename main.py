@@ -248,10 +248,11 @@ def main(page: ft.Page):
                         content=ft.Container(
                             padding=8,
                             content=ft.ExpansionTile(
-                                title=peamine_rida,
-                                controls=alam_elemendid,
-                                expanded=False,
-                            ),
+                                        title=peamine_rida,
+                                        controls=alam_elemendid,
+                                        expanded=m_id in avatud_dropdownid,
+                                        on_change=lambda e, item_id=m_id: dropdowni_olek(e, item_id),
+                                    )
                         )
                     )
                 else:
@@ -278,6 +279,14 @@ def main(page: ft.Page):
     def vajuta_kustuta(meedia_id):
         kustuta_meedia(meedia_id)
         varskenda_nimekirja()
+        
+    avatud_dropdownid = set()
+
+    def dropdowni_olek(e, item_id):
+        if e.control.expanded:
+            avatud_dropdownid.add(item_id)
+        else:
+            avatud_dropdownid.discard(item_id)
 
     filter_staatus.on_change = lambda _: varskenda_nimekirja()
 
